@@ -13,23 +13,18 @@
     {
       "type": "shell",
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/start.sh", "scripts/centos7/ansible.sh" ]
+      "scripts": [ "scripts/centos7/start.sh", "scripts/centos7/ansible_install.sh" ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_dir": "playbooks",
+      "extra_arguments": "--extra-vars \"http_proxy='{{user `http_proxy`}}' https_proxy='{{user `https_proxy`}}' ftp_proxy='{{user `ftp_proxy`}}'\"",
+      "playbook_file": "playbooks/centos7/tasks/vagrant.yaml"
     },
     {
       "type": "shell",
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/vagrant.sh" ]
-    },
-    {
-      "only": [ "centos7vbox" ],
-      "type": "shell",
-      "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/vbox.sh" ]
-    },
-    {
-      "type": "shell",
-      "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/end.sh" ]
+      "scripts": [ "scripts/centos7/vbox.sh", "scripts/centos7/end.sh" ]
     }    
   ],
   

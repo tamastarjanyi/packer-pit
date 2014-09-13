@@ -1,0 +1,39 @@
+---
+#
+# HOW TO USE ANSIBLE FROM PACKER
+#
+# Althought this task does not make much sense and the vagrant.sh is also working fine 
+# but this is a good example.
+#
+
+- hosts: all
+  sudo: yes
+  tasks:
+   
+  - name: Vagrant user creation and modification
+    user: name=vagrant comment="Vagrant user" shell=/bin/bash append=yes groups="wheel"
+    
+  - name: Add root to wheel
+    user: name=root append=yes groups="wheel"
+  
+  - name: Disable requiretty
+    lineinfile: dest=/etc/sudoers backrefs=yes regexp='(\s*Defaults\s*requiretty)' line='Defaults !requiretty'
+    
+  - name: Enable passwordless sudo to wheel
+    lineinfile: 'dest=/etc/sudoers regexp="^(\s*%wheel.*)" line="%wheel ALL=(ALL) NOPASSWD: ALL"'
+    
+  - name: Create .ssh directory
+    file: path=/home/vagrant/.ssh owner=vagrant group=vagrant state=directory mode=0700 
+    
+  - name: Installing wget
+    yum: name=wget
+    
+  - name: Debugging proxy
+    debug: var=proxy  
+    
+  - name: Fetching vagrant public key
+    get_url: url=https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub dest=/home/vagrant/.ssh/authorized_keys mode=600 owner=vagrant group=vagrant
+    environment:
+      https_proxy: '{{ https_proxy }}'
+    
+    
