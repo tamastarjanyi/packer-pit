@@ -1,5 +1,5 @@
 {
-  "description": "This is a CentOS 7 x86_64 Minimal image / VirtualBox Vagrant Box Base Image / VBoxGuestAdditions 4.3.14 / Ansible / Requires the vagrant-centos7_fix plugin - Install this with: vagrant plugin install vagrant-centos7_fix / Password for root is root but account is locked",
+  "description": "This is a CentOS 7 x86_64 Minimal image",
 
   "variables": {
     "http_proxy": "{{env `http_proxy`}}",
@@ -8,6 +8,62 @@
     "output_dir": "{{env `PACKER_OUTPUT_DIRECTORY`}}",
     "iso_url": "{{env `PACKER_ISO_URL`}}"
   },
+
+  "builders": [
+    {
+      "name": "centos7vbox",
+      "type": "virtualbox-iso",
+     
+      "ssh_username": "root",
+      "ssh_password": "root",
+      "disk_size": "40000",
+      "http_directory": "http",
+      "guest_os_type": "RedHat_64",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "md5",
+      "iso_checksum": "e3afe3f1121d69c40cc23f0bafa05e5d",
+      "shutdown_command": "poweroff",
+      "output_directory": "{{user `output_dir`}}",
+
+      "hard_drive_interface": "sata",
+      
+      "boot_command": [
+        "<tab>",
+        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos7/centos7.ks",
+        "<enter>"
+      ],
+      "vboxmanage": [
+          ["modifyvm", "{{.Name}}", "--memory", "1024"],
+          ["modifyvm", "{{.Name}}", "--cpus", "1"]        
+      ]
+    },
+    {
+      "name": "centos7qemu",
+      "type": "qemu",
+     
+      "ssh_username": "root",
+      "ssh_password": "root",
+      "disk_size": "40000",
+      "http_directory": "http",
+      "iso_url": "{{user `iso_url`}}",
+      "iso_checksum_type": "md5",
+      "iso_checksum": "e3afe3f1121d69c40cc23f0bafa05e5d",
+      "shutdown_command": "poweroff",
+      "output_directory": "{{user `output_dir`}}",
+
+      "accelerator": "kvm",
+      "disk_interface": "virtio",
+      "format": "qcow2",
+      "net_device": "virtio-net",
+      
+            
+      "boot_command": [
+        "<tab>",
+        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos7/centos7.ks",
+        "<enter>"
+      ]
+    }   
+  ],
   
   "provisioners": [
     {
@@ -23,44 +79,22 @@
     },
     {
       "type": "shell",
+      "only": [ "centos7vbox" ],
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/vbox.sh", "scripts/centos7/end.sh" ]
+      "scripts": [ "scripts/centos7/vbox.sh" ]
+    },  
+    {
+      "type": "shell",
+      "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
+      "scripts": [  "scripts/centos7/end.sh" ]
     }    
   ],
-  
-  "builders": [
-    {
-      "name": "centos7vbox",
-      "type": "virtualbox-iso",
-     
-      "ssh_username": "root",
-      "ssh_password": "root",
-      "hard_drive_interface": "sata",
-      "disk_size": "40000",
-      "http_directory": "http",
-      "guest_os_type": "RedHat_64",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum_type": "md5",
-      "iso_checksum": "e3afe3f1121d69c40cc23f0bafa05e5d",
-      "shutdown_command": "poweroff",
-      "output_directory": "{{user `output_dir`}}",
-      
-      "boot_command": [
-        "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/centos7/centos7.ks",
-        "<enter>"
-      ],
-      "vboxmanage": [
-          ["modifyvm", "{{.Name}}", "--memory", "1024"],
-          ["modifyvm", "{{.Name}}", "--cpus", "1"]        
-      ]
-    }
-  ],
-      
+       
   "post-processors": [
     {
       "type": "vagrant",
       "compression_level": 9,
+      "only": [ "centos7vbox" ],
       "output": "{{user `output_dir`}}/packer_{{.BuildName}}_{{.Provider}}.box",
       "keep_input_artifact": true
     }
