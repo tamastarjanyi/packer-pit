@@ -28,7 +28,7 @@ For example:
 ```
 export PACKER_TEMPLATE=templates/centos7.json
 export PACKER_ISO_URL="http://ftp.freepark.org/pub/linux/distributions/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
-./run.sh
+./run.sh --noui
 ```
 
 * Or use the user interface
