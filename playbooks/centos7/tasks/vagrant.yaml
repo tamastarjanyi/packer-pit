@@ -11,7 +11,7 @@
   tasks:
    
   - name: Vagrant user creation and modification
-    user: name=vagrant comment="Vagrant user" shell=/bin/bash append=yes groups="wheel"
+    user: name=vagrant comment="Vagrant user" shell=/bin/bash append=yes groups="wheel" password="$6$iND4z4Gc$6AI5iC4SJn0UwoKWNgm30BRKjg2s0ojiYTAHUglPg03X9Pg1mbo6lGmcnvo4vll7i65phlOcXucYYj4NisqY/."
     
   - name: Add root to wheel
     user: name=root append=yes groups="wheel"
