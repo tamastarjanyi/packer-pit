@@ -28,5 +28,39 @@ echo "==========================================================================
 set|grep PACKER
 echo "================================================================================"
 PATH=${PACKER_PATH}:${PATH}
-packer-packer build ${PACKER_TEMPLATE}
+
+if [ $# -eq 0 ]
+then
+  os_dialog=$(dialog --stdout --backtitle "PACKER-PIT" --radiolist "Select OS:" 10 30 5 1 "CentOS 7" on) #2 "Ubuntu 12.04" off)
+  virt_dialog=$(dialog --stdout --backtitle "PACKER-PIT" --radiolist "Select virtualization:" 10 30 5 1 "Virtualbox" on 2 "Qemu" off)
+  echo "$os_dialog $virt_dialog"
+
+  case "$os_dialog" in
+    1)
+      os_name="centos7"
+    ;;
+    2)
+      os_name="ubuntu"
+    ;;
+    *)
+      exit 1
+    ;;
+  esac
+  case "$virt_dialog" in
+    1)
+      virt_name="vbox"
+    ;;
+    2)
+      virt_name="qemu"
+    ;;
+    *)
+      exit 1
+    ;;
+  esac
+  PACKER_TEMPLATE=$(dirname ${PACKER_TEMPLATE})/${os_name}.json
+  echo "Running packer-packer build -only=${os_name}${virt_name} ${PACKER_TEMPLATE}"
+  packer-packer build -only=${os_name}${virt_name} ${PACKER_TEMPLATE}
+else
+  packer-packer build ${PACKER_TEMPLATE}
+fi
 
