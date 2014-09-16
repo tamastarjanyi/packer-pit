@@ -6,7 +6,6 @@ auth --enableshadow --passalgo=sha512
 cdrom
 # Run the Setup Agent on first boot
 firstboot --enable
-ignoredisk --only-use=sda
 # Keyboard layouts
 keyboard --vckeymap=us --xlayouts='us'
 # System language
@@ -20,17 +19,17 @@ rootpw --iscrypted $6$2qLe39y/SC1B81KG$ylw3tgq2OkqE1DopY57DjcoZfRpKrCOFcjPFi6Tnm
 # System timezone
 timezone Europe/Budapest --isUtc
 # System bootloader configuration
-bootloader --location=mbr --boot-drive=sda
+bootloader --location=mbr
 # Partition clearing information
 clearpart --none --initlabel 
 # Disk partitioning information
-part / --fstype="ext4" --ondisk=sda --grow
-part swap --fstype="swap" --ondisk=sda --size=1024
+part / --fstype="ext4" --grow
+part swap --fstype="swap" --size=1024
 
 text
 reboot
 
-%packages
+%packages --excludedocs
 @core
 
 %end
