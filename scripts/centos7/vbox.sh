@@ -22,6 +22,8 @@ echo "==========================================================================
 echo "  Removing VirtualBox Guest Addition requirements..."  
 echo "==============================================================================="
 yum -y autoremove bzip2 kernel-devel-`uname -r` gcc xorg-x11-server-utils
+rm /root/VBoxGuestAdditions_4.3.14.iso
+rm /root/VBoxGuestAdditions.iso || true
 echo "==============================================================================="
 echo " Finished vbox.sh"
 echo "==============================================================================="

@@ -7,6 +7,8 @@ echo " Started end.sh ..."
 echo "==============================================================================="
 echo "  Cleaning proxy settings"
 sed -i -e 's/^proxy=.*$//g' /etc/yum.conf
+echo "  Cleaning up some space"
+yum -y clean all
 echo "  Locking root account"
 passwd -l root
 echo "  Syncing..."
