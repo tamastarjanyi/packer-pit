@@ -7,6 +7,9 @@ Linux [Packer](http://www.packer.io) templates and installation and configuratio
 - CentOS 7 
   - [x] Virtualbox with Vagrant and Ansible
   - [x] QEMU with Vagrant and Ansible
+- Centos 6
+  - [x] Virtualbox with Vagrant and Ansible
+  - [ ] QEMU with Vagrant and Ansible
 
 # General Features
 * Configurable Packer build via environment variables (Check run.sh for used env vars.)
@@ -16,25 +19,26 @@ Linux [Packer](http://www.packer.io) templates and installation and configuratio
   * PACKER_ISO_URL : The url of the Linux ISO
   * PACKER_CACHE_DIR : Downloaded ISO file cache directory location. **Default: ${PACKER_WORKDIR}/packer_cache/**
   * PACKER_OUTPUT_DIRECTORY : Builder and Post-Processor file location. **Default: ${PACKER_WORKDIR}/packer_output/**
+  * PACKER_IMAGE_SIZE_MB : The size of the final image in MB. **Default: 5000**
 * http_proxy support
 * [Vagrant](http://www.vagrantup.com) support
 * [Ansible](http://www.ansible.com) included
 
 # Usage
 
-* **export** every variable you want to overwrite than use run.sh --noui
+* **export** every variable you want to overwrite than use run.sh
 
-For example: 
 ```
 export PACKER_TEMPLATE=templates/centos7.json
 export PACKER_ISO_URL="http://ftp.freepark.org/pub/linux/distributions/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
-./run.sh --noui
+./run.sh
 ```
 
-* Or use the user interface
+* Or use the **user interface** and sit back and wait
 
-* *Sit back and wait*
-
+```
+./run.sh --ui
+```
 # Important information
 
 * root user is created and password is set to root BUT root account is locked

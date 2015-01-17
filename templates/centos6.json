@@ -1,5 +1,5 @@
 {
-  "description": "This is a CentOS 7 x86_64 Minimal image",
+  "description": "This is a CentOS 6 x86_64 Minimal image",
 
   "variables": {
     "http_proxy": "{{env `http_proxy`}}",
@@ -16,7 +16,7 @@
 
   "builders": [
     {
-      "name": "centos7vbox",
+      "name": "centos6vbox",
       "type": "virtualbox-iso",
 
       "ssh_username": "root",
@@ -35,7 +35,7 @@
 
       "boot_command": [
         "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
+        " ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
         "<enter>"
       ],
       "vboxmanage": [
@@ -44,7 +44,7 @@
       ]
     },
     {
-      "name": "centos7qemu",
+      "name": "centos6qemu",
       "type": "qemu",
 
       "ssh_username": "root",
@@ -66,7 +66,7 @@
 
       "boot_command": [
         "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
+        " ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
         "<enter>"
       ],
       "qemuargs": [
@@ -79,7 +79,7 @@
     {
       "type": "shell",
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/start.sh", "scripts/centos7/ansible_install.sh" ]
+      "scripts": [ "scripts/centos7/start.sh", "scripts/centos6/ansible_install.sh" ]
     },
     {
       "type": "ansible-local",
@@ -89,9 +89,9 @@
     },
     {
       "type": "shell",
-      "only": [ "centos7vbox" ],
+      "only": [ "centos6vbox" ],
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/vbox.sh" ]
+      "scripts": [ "scripts/centos6/vbox.sh" ]
     },
     {
       "type": "shell",
@@ -104,7 +104,7 @@
     {
       "type": "vagrant",
       "compression_level": 9,
-      "only": [ "centos7vbox" ],
+      "only": [ "centos6vbox" ],
       "output": "{{user `output_dir`}}/packer_{{.BuildName}}_{{.Provider}}.box",
       "keep_input_artifact": true
     }

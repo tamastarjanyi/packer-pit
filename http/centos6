@@ -1,0 +1,41 @@
+#version=RHEL6
+#
+# https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Installation_Guide/s1-kickstart2-options.html
+#
+# System authorization information
+auth --enableshadow --passalgo=sha512
+
+# Use CDROM installation media
+cdrom
+# Run the Setup Agent on first boot
+firstboot --enable
+# Keyboard layouts
+keyboard us
+# System language
+lang en_US.UTF-8
+
+# Network information
+network  --bootproto=dhcp --ipv6=auto --activate
+network  --hostname=localhost.localdomain
+# Root password
+rootpw --iscrypted $6$2qLe39y/SC1B81KG$ylw3tgq2OkqE1DopY57DjcoZfRpKrCOFcjPFi6TnmbZack/HnV99JVf4/KriboxOd1bRU/yFr6yNKAc7dElwQ/
+# System timezone
+timezone Europe/Budapest --isUtc
+# System bootloader configuration
+bootloader --location=mbr
+# Partition clearing information
+clearpart --none --initlabel
+zerombr
+# Disk partitioning information
+part / --fstype="ext4" --size=1024 --grow
+part swap --fstype="swap" --size=1024
+
+text
+reboot
+
+%packages --nobase --excludedocs
+openssh-server
+
+%end
+
+

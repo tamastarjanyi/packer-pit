@@ -36,4 +36,8 @@
     environment:
       https_proxy: '{{ https_proxy }}'
     
-    
+  - name: Downloading VBoxGuestAddition.iso
+    get_url: url=http://download.virtualbox.org/virtualbox/4.3.14/VBoxGuestAdditions_4.3.14.iso dest=/root/VBoxGuestAdditions_Latest.iso mode=600 owner=root group=root
+    environment:
+      http_proxy: '{{ http_proxy }}'
+      https_proxy: '{{ https_proxy }}'    

@@ -1,0 +1,5 @@
+osmirror["United States"]="http://mirrors.kernel.org/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
+osmirror["Finland"]="http://ftp.funet.fi/pub/mirrors/centos.org/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
+osmirror["Germany"]="http://mirror.eu.oneandone.net/linux/distributions/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
+osmirror["Hungary"]="http://ftp.freepark.org/pub/linux/distributions/centos/7/isos/x86_64/CentOS-7.0-1406-x86_64-Minimal.iso"
+md5sum="e3afe3f1121d69c40cc23f0bafa05e5d"
