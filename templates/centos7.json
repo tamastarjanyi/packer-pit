@@ -100,6 +100,9 @@
         "<tab>",
         " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
         "<enter>"
+      ],
+      "qemuargs": [
+        ["-m" , "1024" ]
       ]
     }
   ],    

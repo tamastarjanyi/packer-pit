@@ -13,6 +13,7 @@ Linux [Packer](http://www.packer.io) templates and installation and configuratio
 
 # General Features
 * Configurable Packer build via environment variables (Check run.sh for used env vars.)
+<<<<<<< HEAD
   * PACKER\_PATH : Path of unextracted packer files. **Default: ${HOME}/packer**
   * PACKER\_WORKDIR : Path to the working dir. Cached files, Builder and Post-Processor outputs go under this by default. **Default: ${PACKER_PATH}/workdir**
   * PACKER\_CONFIG : The path of the packer template file. **Default: templates/centos7.json**
@@ -22,6 +23,16 @@ Linux [Packer](http://www.packer.io) templates and installation and configuratio
   * PACKER\_IMAGE\_SIZE\_MB : The size of the final image in MB. **Default: 5000**
   * PACKER_VMW_REMOTE_HOST, PACKER_VMW_REMOTE_USER, PACKER_VMW_REMOTE_PASSWORD for WMVARE build
 * http_proxy support via http_proxy and https_proxy environment variables.
+=======
+  * PACKER_PATH : Path of unextracted packer files. **Default: ${HOME}/packer**
+  * PACKER_WORKDIR : Path to the working dir. Cached files, Builder and Post-Processor outputs go under this by default. **Default: ${PACKER_PATH}/workdir**
+  * PACKER_CONFIG : The path of the packer template file. **Default: templates/centos7.json**
+  * PACKER_ISO_URL : The url of the Linux ISO
+  * PACKER_CACHE_DIR : Downloaded ISO file cache directory location. **Default: ${PACKER_WORKDIR}/packer_cache/**
+  * PACKER_OUTPUT_DIRECTORY : Builder and Post-Processor file location. **Default: ${PACKER_WORKDIR}/packer_output/**
+  * PACKER_IMAGE_SIZE_MB : The size of the final image in MB. **Default: 5000**
+* http_proxy support
+>>>>>>> 31b73bd1037d308b64dcf7ea492b02b296aef623
 * [Vagrant](http://www.vagrantup.com) support
 * [Ansible](http://www.ansible.com) included
 
@@ -35,7 +46,11 @@ export PACKER_ISO_URL="http://ftp.freepark.org/pub/linux/distributions/centos/7/
 ./run.sh
 ```
 
+<<<<<<< HEAD
 * Or use the **user interface** than sit back and wait
+=======
+* Or use the **user interface** and sit back and wait
+>>>>>>> 31b73bd1037d308b64dcf7ea492b02b296aef623
 
 ```
 ./run.sh --ui

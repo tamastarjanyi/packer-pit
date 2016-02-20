@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 
 set -e
 
