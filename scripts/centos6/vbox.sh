@@ -18,7 +18,7 @@ umount /mnt
 echo "==============================================================================="
 echo "  Removing VirtualBox Guest Addition requirements..."  
 echo "==============================================================================="
-# yum -y autoremove ${PACKAGES}
+# yum --setopt=clean_requirements_on_remove=1 -y remove ${PACKAGES}
 rm /root/VBoxGuestAdditions_Latest.iso
 rm /root/VBoxGuestAdditions.iso || true
 echo "==============================================================================="

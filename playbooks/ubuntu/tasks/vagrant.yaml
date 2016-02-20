@@ -11,22 +11,22 @@
   tasks:
    
   - name: Vagrant user creation and modification
-    user: name=vagrant comment="Vagrant user" shell=/bin/bash append=yes groups="wheel" password="$6$iND4z4Gc$6AI5iC4SJn0UwoKWNgm30BRKjg2s0ojiYTAHUglPg03X9Pg1mbo6lGmcnvo4vll7i65phlOcXucYYj4NisqY/."
+    user: name=vagrant comment="Vagrant user" shell=/bin/bash append=yes groups="admin" password="$6$iND4z4Gc$6AI5iC4SJn0UwoKWNgm30BRKjg2s0ojiYTAHUglPg03X9Pg1mbo6lGmcnvo4vll7i65phlOcXucYYj4NisqY/."
     
   - name: Add root to wheel
-    user: name=root append=yes groups="wheel"
+    user: name=root append=yes groups="admin"
   
   - name: Disable requiretty
     lineinfile: dest=/etc/sudoers backrefs=yes regexp='(\s*Defaults\s*requiretty)' line='Defaults !requiretty'
     
   - name: Enable passwordless sudo to wheel
-    lineinfile: 'dest=/etc/sudoers regexp="^(\s*%wheel.*)" line="%wheel ALL=(ALL) NOPASSWD: ALL"'
+    lineinfile: 'dest=/etc/sudoers regexp="^(\s*%admin.*)" line="%admin ALL=(ALL) NOPASSWD: ALL"'
     
   - name: Create .ssh directory
     file: path=/home/vagrant/.ssh owner=vagrant group=vagrant state=directory mode=0700 
     
   - name: Installing wget
-    yum: name=wget
+    apt: name=wget
     
   - name: Debugging proxy
     debug: var=proxy  
@@ -36,9 +36,4 @@
     environment:
       https_proxy: '{{ https_proxy }}'
     
-  - name: Downloading VBoxGuestAddition.iso
-    get_url: url=http://download.virtualbox.org/virtualbox/5.0.14/VBoxGuestAdditions_5.0.14.iso dest=/root/VBoxGuestAdditions_Latest.iso mode=600 owner=root group=root
-    environment:
-      http_proxy: '{{ http_proxy }}'
-      https_proxy: '{{ https_proxy }}' 
     

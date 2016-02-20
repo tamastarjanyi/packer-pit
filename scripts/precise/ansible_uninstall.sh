@@ -3,13 +3,10 @@
 set -e
 
 echo "==============================================================================="
-echo " Started ansible_install.sh ..."
+echo " Started ansible_uninstall.sh ..."
 echo "==============================================================================="
-echo "  Installing Ansible from EPEL repo..."
-yum -y install http://dl.fedoraproject.org/pub/epel/7/$(uname -m)/e/epel-release-7-5.noarch.rpm
-yum -y install ansible
-sed -i 's/\srequiretty/\ !requiretty/' /etc/sudoers
-echo "localhost" >/etc/ansible/hosts
+echo "  Removing Ansible..."
+yum -y autoremove ansible
 echo "==============================================================================="
-echo " Finished ansible_install.sh"
+echo " Finished ansible_uninstall.sh"
 echo "==============================================================================="

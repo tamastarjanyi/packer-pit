@@ -1,22 +1,20 @@
 #!/bin/bash
 
 set -e
+exit 0
+echo "==============================================================================="
+echo " Started end.sh ..."
+echo "==============================================================================="
+echo "  Cleaning proxy settings"
+sed -i -e 's/^proxy=.*$//g' /etc/yum.conf
+echo "  Cleaning up some space"
+yum -y clean all
+echo "  Locking root account"
+passwd -l root
+echo "  Syncing..."
+sync
+echo "==============================================================================="
+echo " Finished end.sh"
+echo "==============================================================================="
+echo "==============================================================================="
 
-echo "==============================================================================="
-echo "==============================================================================="
-echo " Started start.sh ..."
-echo "==============================================================================="
-echo "    Proxy value is [${http_proxy}]"
-if [ ! -z "${http_proxy}" ] 
-then
-  echo "proxy=${http_proxy}" >>/etc/yum.conf 
-  echo "    Proxy was set to ${http_proxy}"
-else
-  echo "    No proxy was set"
-fi
-yum -y upgrade
-echo "==============================================================================="
-echo " Finished start.sh. Rebooting..."
-echo "==============================================================================="
-reboot # Packer tolerates reboot from shell provisioner only!?
-sleep 300

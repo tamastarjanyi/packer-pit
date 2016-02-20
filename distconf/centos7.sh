@@ -1,0 +1,6 @@
+_imagename="CentOS-7-x86_64-Minimal-1503-01.iso"
+osmirror["United States"]="http://mirrors.kernel.org/centos/7/isos/x86_64/${_imagename}"
+osmirror["Finland"]="http://ftp.funet.fi/pub/mirrors/centos.org/7/isos/x86_64/${_imagename}"
+osmirror["Germany"]="http://mirror.eu.oneandone.net/linux/distributions/centos/7/isos/x86_64/${_imagename}"
+osmirror["Hungary"]="http://ftp.freepark.org/pub/linux/distributions/centos/7/isos/x86_64/${_imagename}"
+md5sum="d07ab3e615c66a8b2e9a50f4852e6a77"

@@ -9,14 +9,15 @@ echo "==========================================================================
 echo "    Proxy value is [${http_proxy}]"
 if [ ! -z "${http_proxy}" ] 
 then
-  echo "proxy=${http_proxy}" >>/etc/yum.conf 
+cat >/etc/apt/apt.conf <<EOF
+Acquire::http::proxy "${http_proxy}";
+Acquire::https::proxy "${http_proxy}";
+Acquire::ftp::proxy "${http_proxy}";
+EOF
   echo "    Proxy was set to ${http_proxy}"
 else
   echo "    No proxy was set"
 fi
-yum -y upgrade
 echo "==============================================================================="
-echo " Finished start.sh. Rebooting..."
+echo " Finished start.sh"
 echo "==============================================================================="
-reboot # Packer tolerates reboot from shell provisioner only!?
-sleep 300

@@ -1,5 +1,5 @@
 {
-  "description": "This is a CentOS 7 x86_64 Minimal image",
+  "description": "This is a Precise x86_64 Minimal image",
 
   "variables": {
     "http_proxy": "{{env `http_proxy`}}",
@@ -11,35 +11,30 @@
     "iso_md5": "{{env `PACKER_ISO_MD5`}}",
     "iso_checksum_type": "{{env `PACKER_ISO_CHECKSUMTYPE`}}",
     "http_directory": "{{env `PACKER_HTTP_DIRECTORY`}}",
-    "image_size_mb": "{{env `PACKER_IMAGE_SIZE_MB`}}",
-    "remote_host" : "{{env `PACKER_VMW_REMOTE_HOST`}}",
-    "remote_username" : "{{env `PACKER_VMW_REMOTE_USER`}}",
-    "remote_password" : "{{env `PACKER_VMW_REMOTE_PASSWORD`}}"
+    "image_size_mb": "{{env `PACKER_IMAGE_SIZE_MB`}}"
   },
 
   "builders": [
     {
-      "name": "centos7vbox",
+      "name": "precisevbox",
       "type": "virtualbox-iso",
 
       "ssh_username": "root",
       "ssh_password": "root",
-      "format" : "ova",
       "disk_size": "{{user `image_size_mb`}}",
       "http_directory": "{{user `http_directory`}}",
-      "guest_os_type": "RedHat_64",
+      "guest_os_type": "Ubuntu_64",
       "iso_url": "{{user `iso_url`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_checksum": "{{user `iso_md5`}}",
       "shutdown_command": "poweroff",
       "output_directory": "{{user `output_dir`}}",
-      "ssh_wait_timeout": "60m",
 
       "hard_drive_interface": "sata",
 
       "boot_command": [
         "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
+        " text headless auto=true priority=critical url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
         "<enter>"
       ],
       "vboxmanage": [
@@ -48,7 +43,7 @@
       ]
     },
     {
-      "name": "centos7qemu",
+      "name": "preciseqemu",
       "type": "qemu",
 
       "ssh_username": "root",
@@ -60,7 +55,6 @@
       "iso_checksum": "{{user `iso_md5`}}",
       "shutdown_command": "poweroff",
       "output_directory": "{{user `output_dir`}}",
-      "ssh_wait_timeout": "60m",
 
       "accelerator": "kvm",
       "disk_interface": "virtio",
@@ -70,62 +64,37 @@
 
       "boot_command": [
         "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
+        "  auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
         "<enter>"
       ],
       "qemuargs": [
-        ["-m" , "1024" ]
-      ]
-    },
-    {
-      "name": "centos7vmware_esx",
-      "type": "vmware-iso",
-
-      "remote_type": "esx5",
-      "remote_host": "{{user `remote_host`}}",
-      "remote_username": "{{user `remote_username`}}",
-      "remote_password": "{{user `remote_password`}}",
-      "ssh_username": "root",
-      "ssh_password": "root",
-      "disk_size": "{{user `image_size_mb`}}",
-      "http_directory": "{{user `http_directory`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_checksum": "{{user `iso_md5`}}",
-      "shutdown_command": "poweroff",
-      "output_directory": "{{user `output_dir`}}",
-      "ssh_wait_timeout": "60m",
-      
-      "boot_command": [
-        "<tab>",
-        " inst.ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/{{user `ks_cfg`}}",
-        "<enter>"
+        ["-m" , "1024m" ]
       ]
     }
-  ],    
+  ],
 
   "provisioners": [
     {
       "type": "shell",
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/start.sh", "scripts/centos7/ansible_install.sh" ]
+      "scripts": [ "scripts/precise/start.sh", "scripts/precise/ansible_install.sh" ]
     },
     {
       "type": "ansible-local",
       "playbook_dir": "playbooks",
       "extra_arguments": "--extra-vars \"http_proxy='{{user `http_proxy`}}' https_proxy='{{user `https_proxy`}}' ftp_proxy='{{user `ftp_proxy`}}'\"",
-      "playbook_file": "playbooks/centos7/tasks/vagrant.yaml"
+      "playbook_file": "playbooks/precise/tasks/vagrant.yaml"
     },
     {
       "type": "shell",
-      "only": [ "centos7vbox" ],
+      "only": [ "precisevbox" ],
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [ "scripts/centos7/vbox.sh" ]
+      "scripts": [ "scripts/precise/vbox.sh" ]
     },
     {
       "type": "shell",
       "environment_vars": [ "http_proxy={{user `http_proxy`}}" , "https_proxy={{user `https_proxy`}}" , "ftp_proxy={{user `ftp_proxy`}}" ],
-      "scripts": [  "scripts/centos7/end.sh" ]
+      "scripts": [  "scripts/precise/end.sh" ]
     }
   ],
 
@@ -133,7 +102,7 @@
     {
       "type": "vagrant",
       "compression_level": 9,
-      "only": [ "centos7vbox" ],
+      "only": [ "precisevbox" ],
       "output": "{{user `output_dir`}}/packer_{{.BuildName}}_{{.Provider}}.box",
       "keep_input_artifact": true
     }

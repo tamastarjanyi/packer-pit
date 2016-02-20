@@ -1,14 +1,15 @@
 #!/bin/bash
 
 set -e
-
+exit 0
 echo "==============================================================================="
 echo " Started ansible_install.sh ..."
 echo "==============================================================================="
-echo "  Installing Ansible from EPEL repo..."
-yum -y install http://dl.fedoraproject.org/pub/epel/7/$(uname -m)/e/epel-release-7-5.noarch.rpm
-yum -y install ansible
-sed -i 's/\srequiretty/\ !requiretty/' /etc/sudoers
+echo "  Installing Ansible ..."
+apt-get install software-properties-common
+apt-add-repository ppa:ansible/ansible
+apt-get update
+apt-get install ansible
 echo "localhost" >/etc/ansible/hosts
 echo "==============================================================================="
 echo " Finished ansible_install.sh"

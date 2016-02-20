@@ -1,0 +1,5 @@
+osmirror["United States"]="http://archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso"
+osmirror["Hungary"]="http://hu.archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso"
+osmirror["Finland"]="http://fi.archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso"
+osmirror["Germany"]="http://de.archive.ubuntu.com/ubuntu/dists/precise-updates/main/installer-amd64/current/images/netboot/mini.iso"
+md5sum="8510dd8437e83166494cf6716e9c31ee"
