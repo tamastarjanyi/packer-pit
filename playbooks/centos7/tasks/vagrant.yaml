@@ -32,9 +32,21 @@
     debug: var=proxy  
     
   - name: Fetching vagrant public key
-    get_url: url=https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub dest=/home/vagrant/.ssh/authorized_keys mode=600 owner=vagrant group=vagrant
+    get_url: url=https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub dest='{{ item }}' mode=600 owner=vagrant group=vagrant
+    with_items:
+      - /home/vagrant/.ssh/authorized_keys
+
+  - name: Fetching vagrant public key as id_rsa.pub
+    get_url: url=https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub dest='{{ item }}' mode=644 owner=vagrant group=vagrant
+    with_items:
+      - /home/vagrant/.ssh/id_rsa.pub
     environment:
       https_proxy: '{{ https_proxy }}'
+      
+  - name: Fetching vagrant private key as id_rsa
+    get_url: url=https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant dest=/home/vagrant/.ssh/id_rsa mode=600 owner=vagrant group=vagrant
+    environment:
+      https_proxy: '{{ https_proxy }}'      
     
   - name: Downloading VBoxGuestAddition.iso
     get_url: url=http://download.virtualbox.org/virtualbox/5.0.14/VBoxGuestAdditions_5.0.14.iso dest=/root/VBoxGuestAdditions_Latest.iso mode=600 owner=root group=root
